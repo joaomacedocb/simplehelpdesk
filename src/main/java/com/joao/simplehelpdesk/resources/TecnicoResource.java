@@ -23,5 +23,4 @@ public class TecnicoResource {
 		Tecnico obj = service.findById(id);
 		return ResponseEntity.ok().body(new TecnicoDTO(obj));
 	}
-
 }
