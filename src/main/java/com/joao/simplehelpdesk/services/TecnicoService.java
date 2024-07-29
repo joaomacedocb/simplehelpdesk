@@ -43,6 +43,11 @@ public class TecnicoService {
 		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
 			throw new DataIntegrityViolationException("CPF já existe na base de dados.");
 		}
+		
+		obj = pessoaRepository.findByEmail(objDTO.getEmail());
+		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
+			throw new DataIntegrityViolationException("E-mail já existe na base de dados.");
+		}
 	}
 	
 }
