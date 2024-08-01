@@ -10,16 +10,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joao.simplehelpdesk.domain.Tecnico;
 import com.joao.simplehelpdesk.domain.enums.Perfil;
 
+import jakarta.validation.constraints.NotNull;
+
 public class TecnicoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	protected Integer id;
+	@NotNull(message = "Atenção. Preencha o campo nome.")
 	protected String nome;
-
+	@NotNull(message = "Atenção. Preencha o campo CPF.")
 	protected String cpf;
-
+	@NotNull(message = "Atenção. Preencha o campo E-mail.")
 	protected String email;
+	@NotNull(message = "Atenção. Preencha o campo Senha.")
 	protected String senha;
 
 	protected Set<Integer> perfis = new HashSet<>();
@@ -99,7 +103,5 @@ public class TecnicoDTO implements Serializable {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
-	
 
 }
