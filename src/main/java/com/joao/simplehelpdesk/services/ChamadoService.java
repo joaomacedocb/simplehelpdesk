@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joao.simplehelpdesk.domain.Chamado;
+import com.joao.simplehelpdesk.domain.Cliente;
+import com.joao.simplehelpdesk.domain.Tecnico;
 import com.joao.simplehelpdesk.domain.dtos.ChamadoDTO;
+import com.joao.simplehelpdesk.domain.enums.Prioridade;
+import com.joao.simplehelpdesk.domain.enums.Status;
 import com.joao.simplehelpdesk.repositories.ChamadoRepository;
 import com.joao.simplehelpdesk.services.exceptions.ObjectNotFoundException;
 
@@ -19,6 +23,12 @@ public class ChamadoService {
 	@Autowired
 	private ChamadoRepository repository;
 	
+	@Autowired
+	private TecnicoService tecnicoService;
+	
+	@Autowired
+	private ClienteService clienteService;
+	
 	public Chamado findById (Integer id) {
 		Optional<Chamado> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Chamado não encontrado na base de dados. ID: " + id ));
@@ -29,8 +39,28 @@ public class ChamadoService {
 	}
 
 	public Chamado create(@Valid ChamadoDTO objDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(novoChamado(objDTO));
+	}
+	
+	private Chamado novoChamado(ChamadoDTO obj) {
+		Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
+		Cliente cliente = clienteService.findById(obj.getCliente());
+		
+		Chamado chamado = new Chamado();
+		
+		if (obj.getId() != null) {
+			chamado.setId(obj.getId());
+		}
+		
+		chamado.setCliente(cliente);
+		chamado.setTecnico(tecnico);
+		chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
+		chamado.setStatus(Status.toEnum(obj.getStatus()));
+		chamado.setTitulo(obj.getTitulo());
+		chamado.setObservacao(obj.getObservacao());
+		
+		return chamado;
+		
 	}
 	
 }
