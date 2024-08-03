@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joao.simplehelpdesk.domain.Chamado;
+import com.joao.simplehelpdesk.domain.dtos.ChamadoDTO;
 import com.joao.simplehelpdesk.repositories.ChamadoRepository;
 import com.joao.simplehelpdesk.services.exceptions.ObjectNotFoundException;
+
+import jakarta.validation.Valid;
 
 @Service
 public class ChamadoService {
@@ -24,7 +27,10 @@ public class ChamadoService {
 	public List<Chamado> findAll() {
 		return repository.findAll();
 	}
-	
-	
+
+	public Chamado create(@Valid ChamadoDTO objDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
