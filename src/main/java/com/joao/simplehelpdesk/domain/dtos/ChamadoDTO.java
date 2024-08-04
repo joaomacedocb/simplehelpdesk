@@ -141,8 +141,4 @@ public class ChamadoDTO implements Serializable {
 		this.nomeCliente = nomeCliente;
 	}
 	
-	
-	
-	
-	
 }
