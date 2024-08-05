@@ -1,6 +1,8 @@
 package com.joao.simplehelpdesk.infra.security;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,12 +10,14 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.joao.simplehelpdesk.domain.Pessoa;
+
 
 @Service
 public class TokenService {
 	
-	@Value("${api.securty.token.secret}")
+	@Value("${api.security.token.secret}")
 	private String secret;
 	
 	public String genarateToken(Pessoa pessoa) {
@@ -21,7 +25,7 @@ public class TokenService {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			String token = JWT.create().withIssuer("login-auth")
 					.withSubject(pessoa.getEmail())
-					.withExpiresAt()
+					.withExpiresAt(generatedExpirationDate()	)
 					.sign(algorithm);
 			
 			return token;
@@ -29,6 +33,24 @@ public class TokenService {
 		} catch(JWTCreationException exception) {
 			throw new RuntimeException("Erro ao autenticar.");
 		}
+	}
+	
+	public String validateToken(String token) {
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(secret);
+			return JWT.require(algorithm)
+					.withIssuer("login-auth")
+					.build()
+					.verify(token)
+					.getSubject();
+		} catch(JWTVerificationException exception) {
+			return null;
+		}
+	}
+	
+	
+	private Instant generatedExpirationDate() {
+		return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.ofHours(-3));
 	}
 
 }
