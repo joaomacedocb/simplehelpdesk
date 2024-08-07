@@ -16,22 +16,22 @@ import com.joao.simplehelpdesk.domain.Pessoa;
 
 @Service
 public class TokenService {
-	
+
 	@Value("${api.security.token.secret}")
 	private String secret;
 	
-	public String genarateToken(Pessoa pessoa) {
+	public String generateToken(Pessoa pessoa) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			String token = JWT.create().withIssuer("login-auth")
 					.withSubject(pessoa.getEmail())
-					.withExpiresAt(generatedExpirationDate()	)
+					.withExpiresAt(generatedExpirationDate())
 					.sign(algorithm);
 			
 			return token;
 			
 		} catch(JWTCreationException exception) {
-			throw new RuntimeException("Erro ao autenticar.");
+			throw new RuntimeException(exception);
 		}
 	}
 	
