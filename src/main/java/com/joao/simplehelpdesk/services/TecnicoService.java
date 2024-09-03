@@ -26,7 +26,7 @@ public class TecnicoService {
 	private PessoaRepository pessoaRepository;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	public Tecnico findById(Integer id) {
 		Optional<Tecnico> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado. ID: " + id));
@@ -47,9 +47,12 @@ public class TecnicoService {
 	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
 		objDTO.setId(id);
 		Tecnico oldObj = findById(id);
+		
+		if(!objDTO.getSenha().equals(oldObj.getSenha())) 
+			objDTO.setSenha(objDTO.getSenha());
+		
 		validaPorCpfEEmail(objDTO);
 		oldObj = new Tecnico(objDTO);
-
 		return repository.save(oldObj);
 	}
 
