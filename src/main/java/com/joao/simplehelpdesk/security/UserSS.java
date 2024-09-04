@@ -43,7 +43,6 @@ public class UserSS implements UserDetails {
     public String getPassword() {
         return senha;
     }
-    
 
     @Override
     public String getUsername() {
