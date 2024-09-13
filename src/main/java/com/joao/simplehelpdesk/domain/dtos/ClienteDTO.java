@@ -1,6 +1,5 @@
 package com.joao.simplehelpdesk.domain.dtos;
 
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;

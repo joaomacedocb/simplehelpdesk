@@ -30,13 +30,13 @@ public class SecurityConfig {
 
 	@Value("${jwt.public.key}")
 	private RSAPublicKey key;
-	
+
 	@Value("${jwt.private.key}")
 	private RSAPrivateKey priv;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -51,31 +51,29 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	JwtDecoder jwtDecoder () {
+	JwtDecoder jwtDecoder() {
 		return NimbusJwtDecoder.withPublicKey(key).build();
 	}
-	
+
 	@Bean
-	JwtEncoder jwtEncoder () {
+	JwtEncoder jwtEncoder() {
 		var jwk = new RSAKey.Builder(key).privateKey(priv).build();
 		var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 		return new NimbusJwtEncoder(jwks);
 	}
-	
-    @SuppressWarnings("removal")
+
+	@SuppressWarnings("removal")
 	@Bean
-    AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                   .userDetailsService(userDetailsService)
-                   .passwordEncoder(bCriptPasswordEncoder()).and().build();
-    }
-    
-	
+	AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+		return http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailsService)
+				.passwordEncoder(bCriptPasswordEncoder()).and().build();
+	}
+
 	@Bean
 	BCryptPasswordEncoder bCriptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 //
 //    @Autowired
 //    private JWTUtil jwtUtil;

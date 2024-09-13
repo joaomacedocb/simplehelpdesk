@@ -23,16 +23,16 @@ public class ChamadoService {
 
 	@Autowired
 	private ChamadoRepository repository;
-	
+
 	@Autowired
 	private TecnicoService tecnicoService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
-	public Chamado findById (Integer id) {
+
+	public Chamado findById(Integer id) {
 		Optional<Chamado> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Chamado não encontrado na base de dados. ID: " + id ));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Chamado não encontrado na base de dados. ID: " + id));
 	}
 
 	public List<Chamado> findAll() {
@@ -42,29 +42,29 @@ public class ChamadoService {
 	public Chamado create(@Valid ChamadoDTO objDTO) {
 		return repository.save(novoChamado(objDTO));
 	}
-	
+
 	public Chamado update(Integer id, @Valid ChamadoDTO objDTO) {
 		objDTO.setId(id);
 		Chamado oldObj = findById(id);
-		oldObj = novoChamado (objDTO);
-		
+		oldObj = novoChamado(objDTO);
+
 		return repository.save(oldObj);
 	}
-	
+
 	private Chamado novoChamado(ChamadoDTO obj) {
 		Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
 		Cliente cliente = clienteService.findById(obj.getCliente());
-		
+
 		Chamado chamado = new Chamado();
-		
+
 		if (obj.getId() != null) {
 			chamado.setId(obj.getId());
 		}
-		
+
 		if (obj.getStatus().equals(2)) {
 			chamado.setDataFechamento(LocalDate.now());
 		}
-		
+
 		chamado.setDataAbertura(obj.getDataAbertura());
 		chamado.setCliente(cliente);
 		chamado.setTecnico(tecnico);
@@ -72,10 +72,8 @@ public class ChamadoService {
 		chamado.setStatus(Status.toEnum(obj.getStatus()));
 		chamado.setTitulo(obj.getTitulo());
 		chamado.setObservacao(obj.getObservacao());
-		
-		return chamado;
-		
-	}
 
-	
+		return chamado;
+
+	}
 }

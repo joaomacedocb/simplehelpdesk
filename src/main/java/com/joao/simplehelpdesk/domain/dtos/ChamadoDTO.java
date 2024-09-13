@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 public class ChamadoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataAbertura = LocalDate.now();
@@ -31,7 +31,7 @@ public class ChamadoDTO implements Serializable {
 	private Integer cliente;
 	private String nomeTecnico;
 	private String nomeCliente;
-	
+
 	public ChamadoDTO() {
 		super();
 	}
@@ -49,8 +49,7 @@ public class ChamadoDTO implements Serializable {
 		this.cliente = obj.getCliente().getId();
 		this.nomeTecnico = obj.getTecnico().getNome();
 		this.nomeCliente = obj.getCliente().getNome();
-		
-		
+
 	}
 
 	public Integer getId() {
@@ -140,5 +139,5 @@ public class ChamadoDTO implements Serializable {
 	public void setNomeCliente(String nomeCliente) {
 		this.nomeCliente = nomeCliente;
 	}
-	
+
 }

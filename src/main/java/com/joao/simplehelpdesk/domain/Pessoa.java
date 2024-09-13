@@ -22,26 +22,26 @@ import jakarta.persistence.Id;
 
 @Entity(name = "pessoas")
 public abstract class Pessoa implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 	protected String nome;
-	
+
 	@CPF
 	@Column(unique = true)
 	protected String cpf;
-	
+
 	@Column(unique = true)
 	protected String email;
 	protected String senha;
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 
@@ -115,7 +115,7 @@ public abstract class Pessoa implements Serializable {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -146,6 +146,5 @@ public abstract class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
-	
 
 }

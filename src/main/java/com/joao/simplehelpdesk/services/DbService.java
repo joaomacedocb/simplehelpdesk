@@ -13,20 +13,19 @@ import com.joao.simplehelpdesk.domain.enums.Perfil;
 import com.joao.simplehelpdesk.domain.enums.Prioridade;
 import com.joao.simplehelpdesk.domain.enums.Status;
 import com.joao.simplehelpdesk.repositories.ChamadoRepository;
-import com.joao.simplehelpdesk.repositories.PessoaRepository;	
+import com.joao.simplehelpdesk.repositories.PessoaRepository;
 
 @Service
 public class DbService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private ChamadoRepository chamadoRepository;
-	
+
 	@Autowired
 	BCryptPasswordEncoder encoder;
-	
 
 	public void instanciaDb() {
 
@@ -37,13 +36,12 @@ public class DbService {
 		tec2.addPerfil(Perfil.TECNICO);
 
 		Cliente cli1 = new Cliente(null, "Pedro", "51744627053", "cliente1@mail.com", encoder.encode("1234"));
-		
-		Chamado c1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Credenciais", "Primeiro chamado aberto", tec1, cli1);
 
+		Chamado c1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Credenciais", "Primeiro chamado aberto",
+				tec1, cli1);
 
 		pessoaRepository.saveAll(Arrays.asList(cli1, tec1, tec2));
 		chamadoRepository.saveAll(Arrays.asList(c1));
 
 	}
-
 }

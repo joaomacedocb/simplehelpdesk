@@ -1,4 +1,5 @@
 package com.joao.simplehelpdesk.security;
+
 import java.time.Instant;
 import java.util.stream.Collectors;
 
@@ -17,22 +18,17 @@ public class JwtService {
 		super();
 		this.encoder = encoder;
 	}
-	
+
 	public String generateToken(Authentication authentication) {
 		Instant now = Instant.now();
 		long expiry = 3600L;
-		
-		String scopes = authentication.getAuthorities()
-				.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
-		
-		var claims = JwtClaimsSet.builder()
-				.issuer("simplehelpdesk-1")
-				.issuedAt(now)
-				.expiresAt(now.plusSeconds(expiry))
-				.subject(authentication.getName())
-				.claim("scope", scopes)
-				.build();
-		
+
+		String scopes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(" "));
+
+		var claims = JwtClaimsSet.builder().issuer("simplehelpdesk-1").issuedAt(now).expiresAt(now.plusSeconds(expiry))
+				.subject(authentication.getName()).claim("scope", scopes).build();
+
 		return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 

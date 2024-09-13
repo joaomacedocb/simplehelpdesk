@@ -13,9 +13,9 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Tecnico extends Pessoa {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "tecnico")
 	private List<Chamado> chamados = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Tecnico extends Pessoa {
 		super();
 		addPerfil(Perfil.CLIENTE);
 	}
-	
+
 	public Tecnico(TecnicoDTO obj) {
 		super();
 		this.id = obj.getId();
@@ -48,7 +48,5 @@ public class Tecnico extends Pessoa {
 	public void setChamados(List<Chamado> chamados) {
 		this.chamados = chamados;
 	}
-	
-	
 
 }
