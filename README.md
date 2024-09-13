@@ -66,7 +66,6 @@ Aqui estão os principais endpoints da API:
 
 A única rota liberada sem autenticação é a `/authenticate`. Todas as outras rotas requerem o envio de um token JWT no cabeçalho da requisição:
 
-```bash
 Authorization: Bearer <token>
   
 Para a geração e validação do JWT, o sistema utiliza chaves RSA pública e privada que devem estar na pasta `src/main/resources` com os seguintes nomes:
